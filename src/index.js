@@ -27,6 +27,10 @@ app.use('/protected', authenticationMiddleWare)
 app.use('/protected', addRegisters)
 app.use('/protected', deleteRegisters)
 app.use('/protected', modifyRegisters)
+app.use(express.static('src/public'))
 
 app.listen(PORT)
 console.log('Server on port 3000')
+/*
+  console.log()
+*/

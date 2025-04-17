@@ -141,6 +141,21 @@ class PdfService {
     const topPosition = 45
 
     this.pdfDocument
+      .fontSize(13)
+      .font('Courier-Bold')
+      .fillColor('gray')
+      .text('Division', 260, 45, {
+        paragraphGap: 5,
+        width: 110,
+        align: 'right'
+      })
+    this.pdfDocument.text('Hospitalaria', {
+      paragraphGap: 5,
+      width: 110,
+      align: 'right'
+    })
+
+    this.pdfDocument
       .rect(380, topPosition, 0.5, 80) // Line
       .strokeColor('gray')
       .stroke()
@@ -161,16 +176,16 @@ class PdfService {
       .fontSize(6)
       .fillColor('black')
       .text(
-        headerConfig.address || 'San Francisco No. 9, example address', // Address
+        headerConfig.address || 'San Francisco No. 9, Col. San Jerónimo Aculco, D.F. ', // Address
         70, // X position
         topPosition + 60,
         { paragraphGap: 10 }
       )
 
     this.pdfDocument.fontSize(6).text(
-      `Tel: ${headerConfig.tel || '55 5555 5555'} / Email: ${
+      `Tel: ${headerConfig.tel || '(55) 5631-2039'} / Email: ${
         // Tel and email
-        headerConfig.email || 'user@example.com.mx'
+        headerConfig.email || 'vrintecsistemasdesalud@yahoo.com.mx'
       }`,
       70, // X position
       topPosition + 70,
@@ -288,8 +303,10 @@ class PdfService {
       throw new TypeError('titleConditions param must be a string')
     }
 
+    this.pdfDocument.moveDown()
     // Render conditions
     this.addNote(titleConditions || 'CONDICIONES DE VENTA:')
+    this.pdfDocument.moveDown()
     for (let i = 0; i < conditions.length; i++) {
       this.addNote(`${conditions[i]}.`)
     }

@@ -101,7 +101,6 @@ class DbService {
       }
     }
     query = `DELETE FROM ${tableName} WHERE ${conditionsQuery}`
-    console.log(query)
     try {
       const data = await connection.execute(query)
       return data
