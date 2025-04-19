@@ -127,4 +127,46 @@ router.get('/api/getAllProviders', async (req, res) => {
   res.json(data)
 })
 
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
+router.get('/api/getDataClients', async (req, res) => {
+  // get registers
+  const [data] = await dbManager.getRegisters('clients', [
+    'id_client',
+    'name_client'
+  ])
+
+  res.json(data)
+})
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
+router.get('/api/getCotizaciones/:userId', async (req, res) => {
+  const idCotizacion = req.params.userId
+
+  // get registers
+  const [data] = await connection.execute(
+    'SELECT date, content, id_cotizaciones FROM cotizaciones WHERE cotizaciones.client=?',
+    [idCotizacion]
+  )
+
+  res.json(data)
+})
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
+router.get('/api/getOneCotizacion/:cotizacionId', async (req, res) => {
+  const idCotizacion = req.params.cotizacionId
+
+  // get registers
+  const [data] = await connection.execute(
+    'SELECT date, content, id_cotizaciones FROM cotizaciones WHERE cotizaciones.id_cotizaciones=?',
+    [idCotizacion]
+  )
+  res.json(data[0].content)
+})
+
 export default router

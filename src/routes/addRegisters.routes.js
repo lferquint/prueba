@@ -195,10 +195,11 @@ router.post('/addCondition', async (req, res) => {
     validateStrings([condition])
 
     // Insert in db or return the existing data
-    const [data] = await dbManager.getRegisters('conditions', ['*'], [
-      { columnName: 'condition', value: condition }
-    ])
-    console.log(data)
+    const [data] = await dbManager.getRegisters(
+      'conditions',
+      ['*'],
+      [{ columnName: 'condition', value: condition }]
+    )
     if (data[0]) {
       res.send('La condition ya existe')
     } else {
@@ -207,6 +208,72 @@ router.post('/addCondition', async (req, res) => {
       ])
       res.send('Condicion agregado correctamente')
     }
+  } catch (e) {
+    console.error(e)
+    res.status(400).send('Error en la consulta')
+  }
+})
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
+router.post('/addClient', async (req, res) => {
+  const client = req.body
+
+  try {
+    // Validate req.body
+    validateStrings([client.name, client.number, client.empresa])
+
+    // Insert in db or return the existing data
+    const [data] = await dbManager.getRegisters(
+      'clients',
+      ['*'],
+      [{ columnName: 'name_client', value: client.name }]
+    )
+    if (data[0]) {
+      res.json({ id: data[0].id_client })
+    } else {
+      await dbManager.insertInDB('clients', [
+        { columnName: 'name_client', value: client.name },
+        { columnName: 'number', value: client.number },
+        { columnName: 'empresa', value: client.empresa }
+      ])
+      const [data] = await dbManager.getRegisters(
+        'clients',
+        ['*'],
+        [{ columnName: 'name_client', value: client.name }]
+      )
+      res.json({ id: data[0].id_client })
+    }
+  } catch (e) {
+    console.error(e)
+    res.status(400).send('Error en la consulta')
+  }
+})
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
+router.post('/addCotizacion', async (req, res) => {
+  const state = req.body
+  function getMySQLDateTime() {
+    const now = new Date()
+    const offset = now.getTimezoneOffset() * 60000 // Ajuste por zona horaria
+    const localISOTime = new Date(now - offset)
+      .toISOString()
+      .slice(0, 19)
+      .replace('T', ' ')
+    return localISOTime
+  }
+
+  try {
+    // Insert in db
+    dbManager.insertInDB('cotizaciones', [
+      { columnName: 'content', value: JSON.stringify(state) },
+      { columnName: 'client', value: state.clientSelected },
+      { columnName: 'date', value: getMySQLDateTime() }
+    ])
+    res.send('Cotizacion agregada correctamente')
   } catch (e) {
     console.error(e)
     res.status(400).send('Error en la consulta')

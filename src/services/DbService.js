@@ -22,9 +22,9 @@ class DbService {
         nameAllColumns = nameAllColumns + ', ' + registersToInsert[i].columnName
       }
     }
-    const allValuesArray = registersToInsert.map((register) => `"${register.value}"`)
+    const allValuesArray = registersToInsert.map((register) => `'${register.value}'`)
     const [data] = await connection.execute(
-      `INSERT INTO ${tableName} (${tableName}.${nameAllColumns}) VALUES (${allValuesArray}) `,
+      `INSERT INTO ${tableName} (${nameAllColumns}) VALUES (${allValuesArray}) `,
       allValuesArray
     )
     return data
