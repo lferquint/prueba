@@ -122,7 +122,7 @@ class DbService {
     let newValuesQuery = ''
     for (let i = 0; i < newColumns.length; i++) {
       if (i === 0) {
-        newValuesQuery = `${newColumns[i].columnName}=${newColumns[i].value}`
+        newValuesQuery = `${newColumns[i].columnName}="${newColumns[i].value}"`
       } else {
         newValuesQuery = `${newValuesQuery}, ${newColumns[i].columnName}=${newColumns[i].value}`
       }

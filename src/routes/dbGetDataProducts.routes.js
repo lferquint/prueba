@@ -30,6 +30,23 @@ router.get('/api/getModels/:idTypeProduct', async (req, res) => {
 /* -------------------------------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------------------------------- */
 
+router.get('/api/getTypeProductId/:nameTypeProduct', async (req, res) => {
+  const { nameTypeProduct } = req.params
+  console.log(nameTypeProduct)
+
+  // get registers
+  const [data] = await dbManager.getRegisters(
+    'type_product', // table name
+    ['id_type_product'], // columns to select
+    [{ columnName: 'type_product_name', value: nameTypeProduct }] // where conditions
+  )
+
+  res.json(data)
+})
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
 router.get('/api/getColorsProduct/:idProduct', async (req, res) => {
   const { idProduct } = req.params
 
@@ -110,7 +127,6 @@ router.get('/api/getAllColors', async (req, res) => {
 router.get('/api/getAllModels', async (req, res) => {
   // get registers
   const [data] = await dbManager.getRegisters('models', ['*'])
-
   res.json(data)
 })
 
@@ -123,7 +139,16 @@ router.get('/api/getAllProviders', async (req, res) => {
     'id_provider',
     'company_name'
   ])
-
+  function getMySQLDateTime() {
+    const now = new Date()
+    const offset = now.getTimezoneOffset() * 60000 // Ajuste por zona horaria
+    const localISOTime = new Date(now - offset)
+      .toISOString()
+      .slice(0, 19)
+      .replace('T', ' ')
+    return localISOTime
+  }
+  console.log(getMySQLDateTime())
   res.json(data)
 })
 
@@ -163,7 +188,7 @@ router.get('/api/getOneCotizacion/:cotizacionId', async (req, res) => {
 
   // get registers
   const [data] = await connection.execute(
-    'SELECT date, content, id_cotizaciones FROM cotizaciones WHERE cotizaciones.id_cotizaciones=?',
+    'SELECT content FROM cotizaciones WHERE cotizaciones.id_cotizaciones=?',
     [idCotizacion]
   )
   res.json(data[0].content)
