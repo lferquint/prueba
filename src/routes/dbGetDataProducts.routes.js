@@ -139,16 +139,6 @@ router.get('/api/getAllProviders', async (req, res) => {
     'id_provider',
     'company_name'
   ])
-  function getMySQLDateTime() {
-    const now = new Date()
-    const offset = now.getTimezoneOffset() * 60000 // Ajuste por zona horaria
-    const localISOTime = new Date(now - offset)
-      .toISOString()
-      .slice(0, 19)
-      .replace('T', ' ')
-    return localISOTime
-  }
-  console.log(getMySQLDateTime())
   res.json(data)
 })
 
