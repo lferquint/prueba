@@ -308,7 +308,7 @@ class PdfService {
     this.addNote(titleConditions || 'CONDICIONES DE VENTA:')
     this.pdfDocument.moveDown()
     for (let i = 0; i < conditions.length; i++) {
-      this.addNote(`${conditions[i]}.`)
+      this.addNote(`${conditions[i]}`)
     }
   }
 

@@ -198,13 +198,13 @@ router.post('/addCondition', async (req, res) => {
     const [data] = await dbManager.getRegisters(
       'conditions',
       ['*'],
-      [{ columnName: 'condition', value: condition }]
+      [{ columnName: 'condition_name', value: condition }]
     )
     if (data[0]) {
       res.send('La condition ya existe')
     } else {
       dbManager.insertInDB('conditions', [
-        { columnName: 'condition', value: condition }
+        { columnName: 'condition_name', value: condition }
       ])
       res.send('Condicion agregado correctamente')
     }

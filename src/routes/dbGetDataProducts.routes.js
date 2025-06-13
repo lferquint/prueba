@@ -184,4 +184,19 @@ router.get('/api/getOneCotizacion/:cotizacionId', async (req, res) => {
   res.json(data[0].content)
 })
 
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
+router.get('/api/getOneClient/:idClient', async (req, res) => {
+  const idClient = req.params.idClient
+
+  // get registers
+  const [data] = await connection.execute(
+    'SELECT * FROM clients WHERE id_client=?',
+    [idClient]
+  )
+  console.log(data[0])
+  res.json(data[0])
+})
+
 export default router
