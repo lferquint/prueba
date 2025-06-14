@@ -303,6 +303,7 @@ class PdfService {
     if (typeof deliveryTime !== 'string') {
       throw new TypeError('deliveryTime param must be a string')
     }
+    this.pdfDocument.moveDown()
     this.addText(`Tiempo de entrega: ${deliveryTime}`)
     this.pdfDocument.moveDown()
   }
@@ -358,13 +359,26 @@ class PdfService {
    * @param {Object} pdfDocument
    * @param {String} name
    */
-  addNotes() {
+  addNotes(conditions, titleConditions) {
+    // validate params
+    if (typeof conditions !== 'object') {
+      throw new TypeError('conditions must be an Array')
+    }
+    if (titleConditions && typeof titleConditions !== 'string') {
+      throw new TypeError('titleConditions param must be a string')
+    }
+
     this.pdfDocument.moveDown()
     this.pdfDocument.moveDown()
-    this.addNote('NOTA:')
-    this.addNoteNotBold('Lo que sea amigos')
-    this.pdfDocument.moveDown()
-    this.pdfDocument.moveDown()
+    // Render conditions
+    if (conditions[0]) {
+      this.addNote(titleConditions || 'NOTA:')
+      for (let i = 0; i < conditions.length; i++) {
+        this.addNoteNotBold(`${conditions[i]}`)
+      }
+      this.pdfDocument.moveDown()
+      this.pdfDocument.moveDown()
+    }
   }
 }
 export default PdfService
