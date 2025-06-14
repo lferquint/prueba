@@ -95,6 +95,25 @@ class PdfService {
   /* -------------------------------------------------------------------------------------------------- */
 
   /**
+   * addNoteNotBold
+   * @param {String} text
+   */
+
+  addNoteNotBold(text) {
+    if (typeof text !== 'string') {
+      throw new TypeError('text param must be a string')
+    }
+    this.pdfDocument
+      .fillColor('black')
+      .fontSize(10)
+      .font(`${this.font}`)
+      .text(text, { width: '300' })
+  }
+
+  /* -------------------------------------------------------------------------------------------------- */
+  /* -------------------------------------------------------------------------------------------------- */
+
+  /**
    * Obj type header for PDF document.
    * @typedef {Object} objIntroduction
    * @property {string} nameClient
@@ -116,7 +135,8 @@ class PdfService {
     this.addText(doDate(new Date()), { align: 'right' }) // Date
     this.pdfDocument.moveDown().moveDown().moveDown()
     this.addText(
-      objIntroduction.introductionMessage || 'Por este conducto ponemos a su atenta consideracion la cotizacion de los productos y/o servicios solicitados. '
+      objIntroduction.introductionMessage ||
+        'Por este conducto ponemos a su atenta consideracion la cotizacion de los productos y/o servicios solicitados. '
     ) // Introducion message
     this.pdfDocument.moveDown()
     this.addText(`Obra: ${objIntroduction.place || this.pendingMessage}`) // Project address
@@ -176,7 +196,8 @@ class PdfService {
       .fontSize(6)
       .fillColor('black')
       .text(
-        headerConfig.address || 'San Francisco No. 9, Col. San Jerónimo Aculco, D.F. ', // Address
+        headerConfig.address ||
+          'San Francisco No. 9, Col. San Jerónimo Aculco, D.F. ', // Address
         70, // X position
         topPosition + 60,
         { paragraphGap: 10 }
@@ -327,6 +348,23 @@ class PdfService {
       .moveDown()
       .text('ATTE.', { align: 'center' })
     this.pdfDocument.moveDown().text(name, { align: 'center' })
+  }
+
+  /* -------------------------------------------------------------------------------------------------- */
+  /* -------------------------------------------------------------------------------------------------- */
+
+  /**
+   * addNotes
+   * @param {Object} pdfDocument
+   * @param {String} name
+   */
+  addNotes() {
+    this.pdfDocument.moveDown()
+    this.pdfDocument.moveDown()
+    this.addNote('NOTA:')
+    this.addNoteNotBold('Lo que sea amigos')
+    this.pdfDocument.moveDown()
+    this.pdfDocument.moveDown()
   }
 }
 export default PdfService
