@@ -88,6 +88,16 @@ router.get('/api/getSaleConditions', async (req, res) => {
 /* -------------------------------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------------------------------- */
 
+router.get('/api/getNotes', async (req, res) => {
+  // get registers
+  const [results] = await connection.execute('SELECT * FROM notes;')
+
+  res.json(results)
+})
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
 router.get('/api/getAllProducts', async (req, res) => {
   // get registers
   const [results] = await connection.execute(

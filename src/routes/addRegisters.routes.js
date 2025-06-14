@@ -193,7 +193,6 @@ router.post('/addCondition', async (req, res) => {
   try {
     // Validate req.body
     validateStrings([condition])
-
     // Insert in db or return the existing data
     const [data] = await dbManager.getRegisters(
       'conditions',
@@ -205,6 +204,35 @@ router.post('/addCondition', async (req, res) => {
     } else {
       dbManager.insertInDB('conditions', [
         { columnName: 'condition_name', value: condition }
+      ])
+      res.send('Condicion agregado correctamente')
+    }
+  } catch (e) {
+    console.error(e)
+    res.status(400).send('Error en la consulta')
+  }
+})
+
+/* -------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------- */
+
+router.post('/addNote', async (req, res) => {
+  const { note } = req.body
+
+  try {
+    // Validate req.body
+    validateStrings([note])
+    // Insert in db or return the existing data
+    const [data] = await dbManager.getRegisters(
+      'notes',
+      ['*'],
+      [{ columnName: 'content_note', value: note }]
+    )
+    if (data[0]) {
+      res.send('La condition ya existe')
+    } else {
+      dbManager.insertInDB('notes', [
+        { columnName: 'content_note', value: note }
       ])
       res.send('Condicion agregado correctamente')
     }
