@@ -288,7 +288,7 @@ class PdfService {
       }
     )
 
-    this.pdfDocument.moveDown().moveDown()
+    this.pdfDocument.moveDown().moveDown().moveDown()
   }
 
   /* -------------------------------------------------------------------------------------------------- */
@@ -298,14 +298,15 @@ class PdfService {
    * addDelyveryTime
    * @param {String} deliveryTime
    */
-  addDeliveryTime(deliveryTime) {
+  addDeliveryTime(deliveryTime, title) {
     // validate params
     if (typeof deliveryTime !== 'string') {
       throw new TypeError('deliveryTime param must be a string')
     }
-    this.pdfDocument.moveDown()
-    this.addText(`Tiempo de entrega: ${deliveryTime}`)
-    this.pdfDocument.moveDown()
+    if (deliveryTime !== '') {
+      this.addText(`${title || 'Tiempo de entrega'}: ${deliveryTime}`)
+      this.pdfDocument.moveDown()
+    }
   }
 
   /* -------------------------------------------------------------------------------------------------- */

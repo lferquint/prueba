@@ -17,6 +17,7 @@ router.post('/generatePdf', async (req, res) => {
   pdfManager.addIntroduction(data.header)
   await pdfManager.addAmounts(data.products)
   pdfManager.addDeliveryTime(data.deliveryTime)
+  pdfManager.addDeliveryTime(data.tiempoDeInstalacion, 'Tiempo de instalación')
   pdfManager.addNotes(data.notes)
   pdfManager.addConditions(data.conditions)
   pdfManager.addSignature(data.signature)
