@@ -160,6 +160,7 @@ class PdfService {
     if (!headerConfig) headerConfig = {}
     const topPosition = 45
 
+    // foija dfjalksd fjlka sjdlk
     this.pdfDocument
       .fontSize(13)
       .font('Courier-Bold')
@@ -197,7 +198,8 @@ class PdfService {
       .fillColor('black')
       .text(
         headerConfig.address ||
-          'San Francisco No. 9, Col. San Jerónimo Aculco, D.F. ', // Address
+        // 'San Francisco No. 9, Col. San Jerónimo Aculco, D.F. ', // Address
+        'Información de contacto:',
         70, // X position
         topPosition + 60,
         { paragraphGap: 10 }
@@ -257,7 +259,8 @@ class PdfService {
         prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
           this.pdfDocument.font('Helvetica').fontSize(9).text()
         },
-        minRowHeight: 20
+        minRowHeight: 20,
+        padding: [1, 5]
       }
     }
 
@@ -305,7 +308,6 @@ class PdfService {
     }
     if (deliveryTime !== '') {
       this.addText(`${title || 'Tiempo de entrega'}: ${deliveryTime}`)
-      this.pdfDocument.moveDown()
     }
   }
 
@@ -371,11 +373,13 @@ class PdfService {
 
     this.pdfDocument.moveDown()
     this.pdfDocument.moveDown()
+    this.pdfDocument.moveDown()
     // Render conditions
     if (conditions[0]) {
-      this.addNote(titleConditions || 'NOTA:')
+      this.addNote(titleConditions || 'NOTAS:')
       for (let i = 0; i < conditions.length; i++) {
-        this.addNoteNotBold(`${conditions[i]}`)
+        this.pdfDocument.moveDown()
+        this.addNoteNotBold(`- ${conditions[i]}`)
       }
       this.pdfDocument.moveDown()
       this.pdfDocument.moveDown()
