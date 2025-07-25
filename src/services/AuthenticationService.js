@@ -1,5 +1,5 @@
 import connection from '../libs/db.js'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { v4 as uuidv4 } from 'uuid'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
