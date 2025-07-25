@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
-dotenv.config({ path: '.env' })
+dotenv.config({ path: 'a.env' })
 const saltRounds = 10
 const expirationTime = '12h'
 

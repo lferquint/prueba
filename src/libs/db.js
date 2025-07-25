@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise'
 import dotenv from 'dotenv'
-dotenv.config({ path: '.env' })
+dotenv.config({ path: 'a.env' })
 // const PORT = 3306
 
 const connection = await mysql.createConnection({
