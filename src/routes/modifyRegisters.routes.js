@@ -35,5 +35,20 @@ router.post('/modifyModel', async (req, res) => {
     res.status(400).send('Ha ocurrido un error')
   }
 })
+router.post('/modifyNote', async (req, res) => {
+  const { idNote, newValue } = req.body
+  console.log(newValue)
+  try {
+    validateStrings([newValue])
+    dbManager.updateRegisters(
+      'notes',
+      [{ columnName: 'content_note', value: newValue }],
+      [{ columnName: 'id_note', value: idNote }]
+    )
+    res.status(200).json({ content: 'Success' })
+  } catch (e) {
+    res.status(400).send('Ha ocurrido un error')
+  }
+})
 
 export default router

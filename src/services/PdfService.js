@@ -90,6 +90,24 @@ class PdfService {
       .font(`${this.font}-Bold`)
       .text(text, { width: '300' })
   }
+  /* -------------------------------------------------------------------------------------------------- */
+  /* -------------------------------------------------------------------------------------------------- */
+
+  /**
+   * addNote
+   * @param {String} text
+   */
+
+  addNotesOrCondition(text) {
+    if (typeof text !== 'string') {
+      throw new TypeError('text param must be a string')
+    }
+    this.pdfDocument
+      .fillColor('black')
+      .fontSize(10)
+      .font(`${this.font}`)
+      .text(text, { width: '375', align: 'justify' })
+  }
 
   /* -------------------------------------------------------------------------------------------------- */
   /* -------------------------------------------------------------------------------------------------- */
@@ -308,6 +326,7 @@ class PdfService {
     }
     if (deliveryTime !== '') {
       this.addText(`${title || 'Tiempo de entrega'}: ${deliveryTime}`)
+      this.pdfDocument.moveDown()
     }
   }
 
@@ -328,6 +347,7 @@ class PdfService {
       throw new TypeError('titleConditions param must be a string')
     }
 
+    this.pdfDocument.moveDown()
     this.pdfDocument.moveDown()
     // Render conditions
     this.addNote(titleConditions || 'CONDICIONES DE VENTA:')
@@ -379,7 +399,7 @@ class PdfService {
       this.addNote(titleConditions || 'NOTAS:')
       for (let i = 0; i < conditions.length; i++) {
         this.pdfDocument.moveDown()
-        this.addNoteNotBold(`- ${conditions[i]}`)
+        this.addNotesOrCondition(`${conditions[i]}`)
       }
       this.pdfDocument.moveDown()
       this.pdfDocument.moveDown()

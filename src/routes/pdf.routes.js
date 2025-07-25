@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post('/generatePdf', async (req, res) => {
   const data = req.body
+  console.log(data)
 
   // Start new document
   const doc = new PDFDocument()
@@ -20,7 +21,7 @@ router.post('/generatePdf', async (req, res) => {
   pdfManager.addDeliveryTime(data.tiempoDeInstalacion, 'Tiempo de instalación')
   pdfManager.addNotes(data.notes)
   pdfManager.addConditions(data.conditions)
-  pdfManager.addSignature('Elías Moreno')
+  pdfManager.addSignature('Elías Moreno Garay')
 
   // config output
   doc.pipe(res)
